@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <title>sm.dev</title>
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            background: #000;
+            color: #0f0;
+            font-family: monospace;
+        }
+
+        .terminal {
+            padding: 2rem;
+        }
+
+        .input-line {
+            display: flex;
+            align-items: center;
+        }
+
+        .prompt {
+            margin-right: 1rem;
+        }
+
+        input {
+            flex-grow: 1;
+            background: #000;
+            color: #0f0;
+            border: none;
+        }
+
+        input:focus {
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container terminal">
+        <p>Welcome, type help and hit enter to see a list of available commands.</p>
+        <div id="output"></div>
+        <div class="input-line">
+            <span class="prompt">cool_guy@sm.dev$</span>
+            <input type="text" id="commandInput" autofocus />
+        </div>
+    </main>
+    <script>
+        document.getElementById('commandInput').addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                let command = event.target.value;
+                let output = document.getElementById('output');
+                switch (command.toLowerCase()) {
+                    case 'help':
+                        output.innerHTML += '<p>help - list available commands</p>';
+                        output.innerHTML += '<p>whois - view short description about me</p>';
+                        output.innerHTML += '<p>contact - list the possible ways to contact me</p>';
+                        output.innerHTML += '<p>clear - clear the screen</p>';
+                        break;
+                    case 'whois':
+                        output.innerHTML += "<p>I'm Sean, an aspiring developer focused around learning more about decentralized and trustless systems. I recently graduated from The University of Alabama at Birmingham with a Bachelors in Computer Science.</p>"
+                        output.innerHTML += "<p>In my free time, I enjoy researching new, emerging technologies; my most recent fascinations are Monad, an L1 EVM, and Dymension, another L1 EVM. I'm currently working on projects involving both of these; if you would like to know more, please don't feel free to reach out to me.</p>"
+                        break;
+                    case 'contact':
+                        output.innerHTML += '<p>Github: <a href="https://github.com/sm2828" target="_blank">github.com/sm2828</a></p>';
+                        output.innerHTML += '<p>LinkedIn: <a href="https://linkedin.com/in/sean-morgan-neville/" target="_blank">linkedin.com/in/sean-morgan-neville/</a></p>';
+                        break;
+                    case 'clear':
+                        output.innerHTML = '';
+                        break;
+                    default:
+                        output.innerHTML += `<p>Command not found: ${command}</p>`;
+                }
+                event.target.value = '';
+            }
+        });
+    </script>
+</body>
+
+</html>
