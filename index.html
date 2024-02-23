@@ -75,7 +75,7 @@
                         output.innerHTML = '';
                         break;
                     default:
-                        output.innerHTML += `<p>Command not found: ${command}</p>`;
+                        output.innerHTML += `<p style="color: red;">Error: Command not found - ${command}</p>`;
                 }
                 event.target.value = '';
             }
