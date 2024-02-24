@@ -95,6 +95,13 @@
                 event.target.value = '';
             }
         });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === '/') {
+                event.preventDefault(); // Prevent any default action associated with the "/" key
+                document.getElementById('commandInput').focus();
+            }
+        });
     </script>
 </body>
 
