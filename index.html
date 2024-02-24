@@ -58,6 +58,7 @@
                 let output = document.getElementById('output');
                 switch (command.toLowerCase()) {
                     case 'help':
+                        output.innerHTML += `<p><span class="prompt;">❯${command}</span></p>`;
                         output.innerHTML += '<p>help - list available commands</p>';
                         output.innerHTML += '<p>whois - view a short description about me</p>';
                         output.innerHTML += "<p>gpt - display a list of GPTs I've trained</p>";
@@ -65,16 +66,22 @@
                         output.innerHTML += '<p>clear - clear the screen</p>';
                         break;
                     case 'whois':
+                        output.innerHTML += `<p><span class="prompt;">❯${command}</span></p>`;
+
                         output.innerHTML += "<p>I'm Sean, an aspiring developer focused around learning more about decentralized systems. I recently graduated from The University of Alabama at Birmingham with a Bachelors in Computer Science. My most used language is Python and I'm currently deepening my knowledge of Solana development, specifically <a href='https://www.rust-lang.org/' target='_blank'>Rust</a>, <a href='https://www.anchor-lang.com/' target='_blank'>Anchor</a>, and <a href='https://www.helius.dev/' target='_blank'>Helius</a> utilization.</p>"
                         output.innerHTML += "<p>In my free time, I enjoy researching emerging technologies and trends within the crypto space. My current fascination is around the possible use cases for NFTs on the newest <a href='https://www.wenwencoin.com/' target='_blank'>WEN</a> standard on Solana.</p>"
                         output.innerHTML += "<p>I'm currently working on a few projects, including a new NFT collection minted on the most current NFT standard; <a href='https://www.wenwencoin.com/' target='_blank'>WEN</a>. I'm always in search of new opportunities, so feel free to reach out to me if you have any ideas or projects you'd like to collaborate on.</p>"
                         break;
                     case 'contact':
+                        output.innerHTML += `<p><span class="prompt;">❯${command}</span></p>`;
+
                         output.innerHTML += '<p>Github: <a href="https://github.com/sm2828" target="_blank">github.com/sm2828</a></p>';
                         output.innerHTML += '<p>LinkedIn: <a href="https://linkedin.com/in/sm33" target="_blank">linkedin.com/sm33</a></p>';
                         output.innerHTML += '<p>X: <a href="https://twitter.com/sm28282828" target="_blank">@sm28282828</a></p>';
                         break;
                     case 'gpt':
+                        output.innerHTML += `<p><span class="prompt;">❯${command}</span></p>`;
+
                         output.innerHTML += '<p><span style="color: yellow;">WARNING:</span> YOU MUST HAVE GPT+ SUBSCRIPTION TO ACCESS THESE</p>'; output.innerHTML += '<p>Spelling Bee Prep: <a href="https://chat.openai.com/g/g-PRIJ8HFX0-spelling-bee-prep" target="_blank">Prepare with friends</a></p>';
                         output.innerHTML += '<p>Monad Meme Maker: <a href="https://chat.openai.com/g/g-RbeBKFlbs-monad-meme-maker" target="_blank">Psychologically terraform crypto</a></p>';
                         output.innerHTML += '<p>Me: <a href="https://chat.openai.com/g/g-GYjbRHxNO-me" target="_blank">Get to know me</a></p>';
