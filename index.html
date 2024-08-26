@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
     <title>sm.dev</title>
+    <link rel="icon" type="image/png" href="path/to/favicon.png">
     <style>
         body,
         html {
@@ -18,6 +19,8 @@
 
         .terminal {
             padding: 2rem;
+            overflow-y: auto;
+            height: calc(100% - 4rem);
         }
 
         .input-line {
@@ -39,6 +42,11 @@
         input:focus {
             outline: none;
         }
+
+        .error {
+            background-color: red;
+            transition: background-color 0.3s ease;
+        }
     </style>
 </head>
 
@@ -48,46 +56,82 @@
         <div id="output"></div>
         <div class="input-line">
             <span class="prompt">cool_guy@sm.dev$</span>
-            <input type="text" id="commandInput" autofocus />
+            <input type="text" id="commandInput" autofocus aria-label="Command Line Input" />
         </div>
     </main>
     <script>
         document.getElementById('commandInput').addEventListener('keydown', function (event) {
             if (event.key === 'Enter') {
-                let command = event.target.value;
+                let command = event.target.value.trim().toLowerCase();
                 let output = document.getElementById('output');
-                switch (command.toLowerCase()) {
+
+                // Handle multi-word commands
+                if (command.includes('show whois')) {
+                    command = 'whois';
+                } else if (command.includes('show contact')) {
+                    command = 'contact';
+                }
+
+                function updateOutput(content) {
+                    output.innerHTML += content;
+                    output.scrollTop = output.scrollHeight; // Auto-scroll to the bottom
+                }
+
+                switch (command) {
                     case 'help':
-                        output.innerHTML += `<p><span class="prompt;">❯${command}</span></p>`;
-                        output.innerHTML += '<p>help - list available commands</p>';
-                        output.innerHTML += '<p>whois - view a short description about me</p>';
-                        output.innerHTML += '<p>contact - list the possible ways to contact me</p>';
-                        output.innerHTML += '<p>clear - clear the screen</p>';
+                        updateOutput(`<p><span class="prompt;">❯${command}</span></p>`);
+                        updateOutput('<p>help - list available commands</p>');
+                        updateOutput('<p>whois - view a short description about me</p>');
+                        updateOutput('<p>contact - list the possible ways to contact me</p>');
+                        updateOutput('<p>clear - clear the screen</p>');
+                        updateOutput('<p>monad - whatever you do... dont type this command</p>');
                         break;
                     case 'whois':
-                        output.innerHTML += `<p><span class="prompt;">❯${command}</span></p>`;
-
-                        output.innerHTML += "<p>I'm Sean. I recently graduated from The University of Alabama at Birmingham with a Bachelors in Computer Science. I'm currently deepening my knowledge of <a href='https://www.monad.xyz/' target='_blank'>Monad</a>, Rust, React, Anchor, and other Solana-oriented tools.</p>"
-                        output.innerHTML += "<p>In my free time, I enjoy researching emerging technologies and trends within the crypto space. My current fascination is around the possible implications for digital collectibles on <a href='https://www.monad.xyz/' target='_blank'>Monad</a>. Specifically the utilzation of xNFT compatibility to Monad NFTs.</p>"
-                        output.innerHTML += "<p>I'm currently working on a few projects, including my own collection. I'm always in search of new opportunities and innovations; if you're interested in getting in touch, run command 'contact'.</p>"
+                        updateOutput(`<p><span class="prompt;">❯${command}</span></p>`);
+                        updateOutput("<p>I'm Sean. I recently graduated from The University of Alabama at Birmingham with a Bachelors in Computer Science. I'm currently deepening my knowledge of <a href='https://www.monad.xyz/' target='_blank'>Monad</a> and prepping for mainnet.</p>");
+                        updateOutput("<p>In my free time, I enjoy researching emerging trends within the crypto space.</p>");
+                        updateOutput("<p>I'm currently working on a few projects, including a <a href='https://sm2828.github.io/PickANumber/' target='_blank'>number picker game</a> which is set to launch on Monad mainnet Q4 2024. I'm always in search of new opportunities so if you're interested in working together, run command 'contact'.</p>");
                         break;
                     case 'contact':
-                        output.innerHTML += `<p><span class="prompt;">❯${command}</span></p>`;
-
-                        output.innerHTML += '<p>Github: <a href="https://github.com/sm2828" target="_blank">github.com/sm2828</a></p>';
-                        output.innerHTML += '<p>LinkedIn: <a href="https://linkedin.com/in/sm33" target="_blank">linkedin.com/sm33</a></p>';
+                        updateOutput(`<p><span class="prompt;">❯${command}</span></p>`);
+                        updateOutput('<p>Github: <a href="https://github.com/sm2828" target="_blank">github.com/sm2828</a></p>');
+                        updateOutput('<p>LinkedIn: <a href="https://linkedin.com/in/sm33" target="_blank">linkedin.com/sm33</a></p>');
                         break;
                     case 'clear':
                         output.innerHTML = '';
                         break;
+                    case 'monad':
+                        // Save the original background and text color
+                        let originalBackground = document.body.style.backgroundColor;
+                        let originalTextColor = document.body.style.color;
+
+                        // Change the background and text color to Monad's branding
+                        document.body.style.backgroundColor = '#200052';  // Monad Blue
+                        document.body.style.color = '#5feddf';  // Electric Ice
+
+                        // Display a Monad-themed message
+                        updateOutput(`<p style="color: #836ef9; font-size: 2rem;">⨀ MONAD MODE ENGAGED ⨀</p>`);
+                        updateOutput(`<p style="color: #f7ede8;">WHAT HAVE YOU DONE?? EVERYTHING IS PURPLE AND SCALABLE ??!!</p>`);
+
+                        // Restore the original styles after a short delay
+                        setTimeout(() => {
+                            document.body.style.backgroundColor = originalBackground;
+                            document.body.style.color = originalTextColor;
+                            updateOutput('<p>Exiting Monad Mode. Try again when mainnet launches. Back to boring mode..</p>');
+                        }, 5000);  // Display Monad mode for 5 seconds
+                        break;
+
                     default:
-                        output.innerHTML += `<p style="color: red;">Error: Command not found - ${command}</p>`;
+                        document.body.classList.add('error');
+                        setTimeout(() => document.body.classList.remove('error'), 300);
+                        updateOutput(`<p style="color: red;">Error: Command not found - ${command}</p>`);
+                        updateOutput(`<p style="color: yellow;">Type 'help' to see the list of available commands.</p>`);
                 }
                 event.target.value = '';
             }
         });
 
-        document.addEventListener('keydown', function(event) {
+        document.addEventListener('keydown', function (event) {
             if (event.key === '/') {
                 event.preventDefault(); // Prevent any default action associated with the "/" key
                 document.getElementById('commandInput').focus();
